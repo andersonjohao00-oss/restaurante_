@@ -1,0 +1,92 @@
+from modelos.producto import Producto
+from modelos.bebida import Bebida
+from modelos.cliente import Cliente
+from servicios.restaurante import Restaurante
+
+def ejecutar_menu() -> None:
+    restaurante = Restaurante()
+
+    while True:
+        print("\n=======================================")
+        print("         SISTEMA DE RESTAURANTE        ")
+        print("=======================================")
+        print("1. Registrar producto")
+        print("2. Registrar bebida")
+        print("3. Registrar cliente")
+        print("---------------------------------------")
+        print("4. Listar productos")
+        print("5. Listar clientes")
+        print("---------------------------------------")
+        print("6. Salir")
+        
+        opcion = input("Seleccione una opción: ").strip()
+
+        if opcion == "1":
+            print("\n--- Registrar Producto ---")
+            codigo = input("Código: ").strip()
+            nombre = input("Nombre: ").strip()
+            categoria = input("Categoría: ").strip()
+            try:
+                precio = float(input("Precio: "))
+                producto = Producto(codigo, nombre, categoria, precio)
+                if restaurante.registrar_producto(producto):
+                    print("¡Producto registrado con éxito!")
+                else:
+                    print("Error: El código de producto ya existe.")
+            except ValueError:
+                print("Error: El precio debe ser un número válido.")
+
+        elif opcion == "2":
+            print("\n--- Registrar Bebida ---")
+            codigo = input("Código: ").strip()
+            nombre = input("Nombre: ").strip()
+            categoria = input("Categoría: ").strip()
+            try:
+                precio = float(input("Precio: "))
+                tamano = input("Tamaño (ej. 500ml): ").strip()
+                bebida = Bebida(codigo, nombre, categoria, precio, tamano)
+                if restaurante.registrar_producto(bebida):
+                    print("¡Bebida registrada con éxito!")
+                else:
+                    print("Error: El código de bebida ya existe.")
+            except ValueError:
+                print("Error: El precio debe ser un número válido.")
+
+        elif opcion == "3":
+            print("\n--- Registrar Cliente ---")
+            identificacion = input("Identificación: ").strip()
+            nombre = input("Nombre completo: ").strip()
+            correo = input("Correo electrónico: ").strip()
+            cliente = Cliente(identificacion, nombre, correo)
+            if restaurante.registrar_cliente(cliente):
+                print("¡Cliente registrado con éxito!")
+            else:
+                print("Error: La identificación ya está registrada.")
+
+        elif opcion == "4":
+            print("\n--- Lista de Productos y Bebidas ---")
+            productos = restaurante.listar_productos()
+            if not productos:
+                print("No hay productos registrados.")
+            else:
+                # Aplicación limpia de Polimorfismo sin comprobar el tipo concreto
+                for prod in productos:
+                    prod.mostrar_informacion()
+
+        elif opcion == "5":
+            print("\n--- Lista de Clientes ---")
+            clientes = restaurante.listar_clientes()
+            if not clientes:
+                print("No hay clientes registrados.")
+            else:
+                for cli in clientes:
+                    cli.mostrar_informacion()
+
+        elif opcion == "6":
+            print("Saliendo del sistema... ¡Hasta luego!")
+            break
+        else:
+            print("Opción no válida. Por favor, intente de nuevo.")
+
+if __name__ == "__main__":
+    ejecutar_menu()

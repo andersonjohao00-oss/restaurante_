@@ -1,0 +1,9 @@
+from modelos.producto import Producto
+
+class Bebida(Producto):
+    def __init__(self, codigo: str, nombre: str, categoria: str, precio: float, tamano: str) -> None:
+        super().__init__(codigo, nombre, categoria, precio)
+        self.tamano: str = tamano
+
+    def mostrar_informacion(self) -> None:
+        print(f"[{self.codigo}] Bebida: {self.nombre} ({self.categoria}) - Tamaño: {self.tamano} - ${self.precio:.2f}")

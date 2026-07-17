@@ -1,0 +1,33 @@
+from typing import List
+from modelos.producto import Producto
+from modelos.cliente import Cliente
+
+class Restaurante:
+    def __init__(self) -> None:
+        # Se almacena Producto y Bebida en la misma lista para respetar los requisitos y el polimorfismo
+        self._productos: List[Producto] = []
+        self._clientes: List[Cliente] = []
+
+    def registrar_producto(self, producto: Producto) -> bool:
+        if self._existe_codigo_producto(producto.codigo):
+            return False
+        self._productos.append(producto)
+        return True
+
+    def registrar_cliente(self, cliente: Cliente) -> bool:
+        if self._existe_identificacion_cliente(cliente.identificacion):
+            return False
+        self._clientes.append(cliente)
+        return True
+
+    def listar_productos(self) -> List[Producto]:
+        return self._productos
+
+    def listar_clientes(self) -> List[Cliente]:
+        return self._clientes
+
+    def _existe_codigo_producto(self, codigo: str) -> bool:
+        return any(p.codigo == codigo for p in self._productos)
+
+    def _existe_identificacion_cliente(self, identificacion: str) -> bool:
+        return any(c.identificacion == identificacion for c in self._clientes)
